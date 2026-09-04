@@ -1,0 +1,453 @@
+.doctor-dashboard {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.doctor-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.75);
+  padding: 20px 32px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.doctor-header {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  padding: 16px 24px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.header-logo .logo-icon {
+  font-size: 28px;
+  color: #0d9488;
+}
+
+.header-logo span {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-greeting h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.doctor-specialty {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-date {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.logout-btn svg {
+  font-size: 16px;
+}
+
+/* ============================================
+   STATS ROW
+   ============================================ */
+.doctor-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.doctor-stat-card {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  padding: 16px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.doctor-stat-card:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+
+.stat-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-number {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-trend {
+  font-size: 18px;
+  opacity: 0.5;
+}
+
+/* ============================================
+   WELCOME SECTION
+   ============================================ */
+.doctor-welcome {
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding: 20px 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.welcome-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(13, 148, 136, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #0d9488;
+  flex-shrink: 0;
+}
+
+.welcome-text h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.welcome-text p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* ============================================
+   DOCTOR GRID
+   ============================================ */
+.doctor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  flex: 1;
+  align-content: start;
+}
+
+.doctor-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 4px solid transparent;
+}
+
+.doctor-card:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.doctor-card:hover .card-arrow {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-content h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.card-content p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.card-arrow {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+  opacity: 0.4;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.doctor-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-activity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
+.activity-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.footer-activity strong {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-divider {
+  color: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .doctor-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .doctor-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .doctor-overlay {
+    padding: 16px;
+  }
+
+  .doctor-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .header-left {
+    flex-wrap: wrap;
+  }
+
+  .header-right {
+    justify-content: space-between;
+  }
+
+  .doctor-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .doctor-stat-card {
+    padding: 14px 16px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .doctor-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .welcome-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px 20px;
+  }
+
+  .doctor-footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .doctor-overlay {
+    padding: 12px;
+  }
+
+  .doctor-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-card {
+    padding: 16px 18px;
+  }
+
+  .card-content h3 {
+    font-size: 14px;
+  }
+
+  .card-content p {
+    font-size: 12px;
+  }
+}

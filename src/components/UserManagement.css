@@ -1,0 +1,135 @@
+.user-management-container {
+  padding: 40px;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.user-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-management-header h2 {
+  color: #1a73e8;
+}
+
+.add-user-btn {
+  padding: 10px 24px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-user-btn:hover {
+  background: #1557b0;
+}
+
+.add-user-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-user-form h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.users-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th {
+  background: #f8f9fa;
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.users-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.users-table tr:hover {
+  background: #f8f9fa;
+}
+
+.role-select {
+  padding: 6px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  background: white;
+}
+
+.delete-btn {
+  padding: 6px 14px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.3s;
+}
+
+.delete-btn:hover {
+  background: #d32f2f;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #1557b0;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+}

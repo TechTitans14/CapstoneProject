@@ -1,0 +1,221 @@
+.manage-appointments-container {
+  padding: 40px;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.manage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.manage-header h2 {
+  color: #1a73e8;
+  font-size: 28px;
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-bar input {
+  padding: 10px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  width: 300px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: #1a73e8;
+  outline: none;
+}
+
+.appointments-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.appointments-table th {
+  background: #f8f9fa;
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.appointments-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.appointments-table tr:hover {
+  background: #f8f9fa;
+}
+
+.appointments-table tr:last-child td {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.status-badge.scheduled {
+  background: #e3f2fd;
+  color: #1a73e8;
+}
+
+.status-badge.completed {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.cancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-badge.rescheduled {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reschedule-btn {
+  padding: 6px 14px;
+  background: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.reschedule-btn:hover {
+  background: #f57c00;
+  transform: scale(1.02);
+}
+
+.cancel-btn {
+  padding: 6px 14px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #d32f2f;
+  transform: scale(1.02);
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+}
+
+.no-appointments {
+  text-align: center;
+  padding: 60px;
+  color: #666;
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .manage-appointments-container {
+    padding: 20px;
+  }
+
+  .manage-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .manage-header h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .appointments-table-wrapper {
+    border-radius: 8px;
+  }
+
+  .appointments-table th,
+  .appointments-table td {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reschedule-btn,
+  .cancel-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-table th,
+  .appointments-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+}
