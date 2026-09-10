@@ -6,6 +6,7 @@ C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.Assem
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.csproj.CoreCompileInputs.cache
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.sourcelink.json
 C:\Users\anele\source\repos\backend\backend\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\anele\source\repos\backend\backend\bin\Debug\net8.0\appsettings.json
 C:\Users\anele\source\repos\backend\backend\bin\Debug\net8.0\HealthcareAPI.staticwebassets.endpoints.json
@@ -134,4 +135,3 @@ C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\refint\HealthcareAP
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.pdb
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\HealthcareAPI.genruntimeconfig.cache
 C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\ref\HealthcareAPI.dll
-C:\Users\anele\source\repos\backend\backend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

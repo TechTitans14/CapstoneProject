@@ -25,8 +25,8 @@ namespace HealthcareAPI.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        // Navigation Properties
+        // ✅ ADD [JsonIgnore] HERE
         [JsonIgnore]
-        public ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }

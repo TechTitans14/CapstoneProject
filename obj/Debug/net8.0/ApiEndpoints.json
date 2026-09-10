@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "HealthcareAPI.Controllers.AppointmentController",
+    "Method": "GetAppointment",
+    "RelativePath": "api/Appointment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HealthcareAPI.Models.Appointment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HealthcareAPI.Controllers.AppointmentController",
     "Method": "GetDoctorAppointments",
     "RelativePath": "api/Appointment/doctor/{doctorId}",
     "HttpMethod": "GET",

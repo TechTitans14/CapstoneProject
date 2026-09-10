@@ -4,28 +4,40 @@ using System.Text.Json.Serialization;
 
 namespace HealthcareAPI.Models
 {
+    [Table("medicalrecords")]
     public class MedicalRecord
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("recordID")]
         public int RecordID { get; set; }
 
+        // ✅ Required - Foreign Keys
         [Required]
+        [Column("patientID")]
         public int PatientID { get; set; }
 
         [Required]
+        [Column("doctorID")]
         public int DoctorID { get; set; }
 
-        [Required]
-        public int AppointmentID { get; set; }
+        // ✅ Make nullable - for prescriptions WITHOUT appointments
+        [Column("appointmentID")]
+        public int? AppointmentID { get; set; }
 
+        [Column("diagnosis")]
         public string Diagnosis { get; set; }
 
+        [Column("treatment")]
         public string Treatment { get; set; }
 
+        [Column("visitDate")]
         public DateTime? VisitDate { get; set; }
 
-        // Navigation Properties
+        // ============================================
+        // ✅ NAVIGATION PROPERTIES
+        // ✅ REMOVE [Required] FROM ALL OF THESE!
+        // ============================================
         [ForeignKey(nameof(PatientID))]
         [JsonIgnore]
         public virtual Patient Patient { get; set; }

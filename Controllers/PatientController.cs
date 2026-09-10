@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HealthcareAPI.DTOs;  // ← Using DTOs namespace only
 using HealthcareAPI.Models;
 using HealthcareAPI.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -19,87 +18,104 @@ namespace HealthcareAPI.Controllers
             _context = context;
         }
 
+        // ============================================
+        // GET: api/Patient
+        // ============================================
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Patient>>> GetPatients()
+        {
+            try
+            {
+                var patients = await _context.Patients
+                    .OrderBy(p => p.Name)
+                    .ToListAsync();
+
+                return Ok(patients);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching patients: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // ============================================
+        // GET: api/Patient/5
+        // ============================================
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Patient>> GetPatient(int id)
+        {
+            try
+            {
+                var patient = await _context.Patients
+                    .FirstOrDefaultAsync(p => p.PatientID == id);
+
+                if (patient == null)
+                {
+                    return NotFound($"Patient with ID {id} not found");
+                }
+
+                return Ok(patient);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching patient: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // ============================================
+        // POST: api/Patient/register
+        // ============================================
         [HttpPost("register")]
         [Authorize(Roles = "Receptionist,Admin")]
-        public async Task<ActionResult<PatientResponseDTO>> RegisterPatient(PatientRegistrationDTO registrationDTO)
+        public async Task<ActionResult<Patient>> RegisterPatient([FromBody] Patient patient)
         {
-            // Check if patient already exists
-            var existingPatient = await _context.Patients
-                .FirstOrDefaultAsync(p => p.IDNumber == registrationDTO.IDNumber);
-
-            if (existingPatient != null)
-                return BadRequest("Patient with this ID number already exists");
-
-            var patient = new Patient
+            try
             {
-                Name = registrationDTO.Name,
-                IDNumber = registrationDTO.IDNumber,
-                Contact = registrationDTO.Contact,
-                Gender = registrationDTO.Gender,
-                DateOfBirth = registrationDTO.DateOfBirth,
-                Email = registrationDTO.Email,
-                DateRegistered = DateTime.Now
-            };
+                Console.WriteLine($"📝 Registering patient: {patient.Name}");
+                Console.WriteLine($"   ID Number: {patient.IDNumber}");
+                Console.WriteLine($"   Contact: {patient.Contact}");
+                Console.WriteLine($"   Gender: {patient.Gender}");
+                Console.WriteLine($"   Email: {patient.Email}");
+                Console.WriteLine($"   DOB: {patient.DateOfBirth}");
 
-            _context.Patients.Add(patient);
-            await _context.SaveChangesAsync();
+                // ✅ Check if patient already exists
+                var existingPatient = await _context.Patients
+                    .FirstOrDefaultAsync(p => p.IDNumber == patient.IDNumber);
 
-            var response = new PatientResponseDTO
-            {
-                PatientID = patient.PatientID,
-                Name = patient.Name,
-                IDNumber = patient.IDNumber,
-                Contact = patient.Contact,
-                Gender = patient.Gender,
-                DateOfBirth = patient.DateOfBirth,
-                Email = patient.Email,
-                DateRegistered = patient.DateRegistered
-            };
-
-            return Ok(response);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PatientResponseDTO>>> GetAllPatients()
-        {
-            var patients = await _context.Patients
-                .Select(p => new PatientResponseDTO
+                if (existingPatient != null)
                 {
-                    PatientID = p.PatientID,
-                    Name = p.Name,
-                    IDNumber = p.IDNumber,
-                    Contact = p.Contact,
-                    Gender = p.Gender,
-                    DateOfBirth = p.DateOfBirth,
-                    Email = p.Email,
-                    DateRegistered = p.DateRegistered
-                })
-                .ToListAsync();
+                    return BadRequest("Patient with this ID number already exists");
+                }
 
-            return Ok(patients);
-        }
+                // ✅ Set DateRegistered
+                patient.DateRegistered = DateTime.Now;
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PatientResponseDTO>> GetPatient(int id)
-        {
-            var patient = await _context.Patients.FindAsync(id);
+                // ✅ Add patient
+                _context.Patients.Add(patient);
+                await _context.SaveChangesAsync();
 
-            if (patient == null)
-                return NotFound();
+                Console.WriteLine($"✅ Patient registered successfully with ID: {patient.PatientID}");
 
-            var response = new PatientResponseDTO
+                return Ok(patient);
+            }
+            catch (DbUpdateException dbEx)
             {
-                PatientID = patient.PatientID,
-                Name = patient.Name,
-                IDNumber = patient.IDNumber,
-                Contact = patient.Contact,
-                Gender = patient.Gender,
-                DateOfBirth = patient.DateOfBirth,
-                Email = patient.Email,
-                DateRegistered = patient.DateRegistered
-            };
-
-            return Ok(response);
+                Console.WriteLine($"❌ Database error: {dbEx.Message}");
+                Console.WriteLine($"Inner exception: {dbEx.InnerException?.Message}");
+                return StatusCode(500, new
+                {
+                    error = "Database error occurred",
+                    details = dbEx.InnerException?.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error creating patient: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

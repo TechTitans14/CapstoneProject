@@ -33,25 +33,17 @@ namespace HealthcareAPI.Models
         [MaxLength(255)]
         public string Reason { get; set; }
 
-        // ============================================
-        // NAVIGATION PROPERTIES
-        // REMOVE [JsonIgnore] FROM THESE:
-        // ============================================
-
+        // ✅ KEEP THESE - They are needed for the API response
         [ForeignKey(nameof(PatientID))]
-        // ✅ REMOVE [JsonIgnore] - Patient data needs to be visible
         public virtual Patient Patient { get; set; }
 
         [ForeignKey(nameof(DoctorID))]
-        // ✅ REMOVE [JsonIgnore] - Doctor data needs to be visible
         public virtual Doctor Doctor { get; set; }
 
         [ForeignKey(nameof(BookedBy))]
-        // ✅ REMOVE [JsonIgnore] - Receptionist data needs to be visible
         public virtual Receptionist BookedByReceptionist { get; set; }
 
-      
-       
+        // ✅ KEEP [JsonIgnore] HERE to prevent circular reference
         [JsonIgnore]
         public virtual MedicalRecord MedicalRecord { get; set; }
     }
