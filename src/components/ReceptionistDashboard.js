@@ -2,17 +2,21 @@ import React from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { 
-  FaStethoscope, 
+  FaUserPlus, 
   FaCalendarCheck, 
-  FaClipboardList, 
-  FaPrescription,
+  FaClipboardList,
   FaHospital,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaUsers,
+  FaClock,
+  FaCalendarDay,
+  FaPhoneAlt,
+  FaEnvelope
 } from 'react-icons/fa';
-import './DoctorDashboard.css';
+import './ReceptionistDashboard.css';
 import LoginBackground from './LoginBackground.jpg';
 
-const DoctorDashboard = () => {
+const ReceptionistDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -21,29 +25,61 @@ const DoctorDashboard = () => {
     navigate('/login');
   };
 
-  // Doctor specific menu items
+  // Receptionist specific menu items
   const menuItems = [
     { 
-      title: 'Schedule Consultation', 
-      path: '/schedule-consultation', 
+      title: 'Register Patient', 
+      path: '/register-patient', 
+      icon: FaUserPlus,
+      color: '#10b981',
+      description: 'Add new patients to the system'
+    },
+    { 
+      title: 'Book Appointment', 
+      path: '/book-appointment', 
       icon: FaCalendarCheck,
-      color: '#0d9488',
-      description: 'View your daily consultation schedule'
-    },
-    { 
-      title: 'New Consultation', 
-      path: '/new-consultation', 
-      icon: FaClipboardList,
       color: '#3b82f6',
-      description: 'Create new patient consultation records'
+      description: 'Schedule patient appointments'
     },
     { 
-      title: 'Issue Prescription', 
-      path: '/issue-prescription', 
-      icon: FaPrescription,
-      color: '#ef4444',
-      description: 'Prescribe medication to patients'
+      title: 'Manage Appointments', 
+      path: '/manage-appointments', 
+      icon: FaClipboardList,
+      color: '#8b5cf6',
+      description: 'View and manage all appointments'
     },
+  ];
+
+  // Quick stats for receptionist
+  const stats = [
+    {
+      number: '0',
+      label: 'Today\'s Patients',
+      icon: FaUsers,
+      color: '#0d9488',
+      bgColor: '#ccfbf1'
+    },
+    {
+      number: '0',
+      label: 'Today\'s Appointments',
+      icon: FaCalendarDay,
+      color: '#3b82f6',
+      bgColor: '#dbeafe'
+    },
+    {
+      number: '0',
+      label: 'Pending',
+      icon: FaClock,
+      color: '#f59e0b',
+      bgColor: '#fef3c7'
+    },
+    {
+      number: '0',
+      label: 'Completed',
+      icon: FaClipboardList,
+      color: '#8b5cf6',
+      bgColor: '#ede9fe'
+    }
   ];
 
   // Get greeting based on time
@@ -65,19 +101,19 @@ const DoctorDashboard = () => {
   };
 
   return (
-    <div className="doctor-dashboard" style={{ backgroundImage: `url(${LoginBackground})` }}>
-      <div className="doctor-overlay">
+    <div className="receptionist-dashboard" style={{ backgroundImage: `url(${LoginBackground})` }}>
+      <div className="receptionist-overlay">
         {/* Header */}
-        <header className="doctor-header">
+        <header className="receptionist-header">
           <div className="header-left">
             <div className="header-logo">
               <FaHospital className="logo-icon" />
               <span>MediCare</span>
             </div>
             <div className="header-info">
-              <div className="doctor-greeting">
+              <div className="receptionist-greeting">
                 <h2>{getGreeting()}, {user?.name}!</h2>
-                <span className="doctor-specialty">Medical Professional</span>
+                <span className="receptionist-title">Front Desk Receptionist</span>
               </div>
             </div>
           </div>
@@ -92,27 +128,52 @@ const DoctorDashboard = () => {
           </div>
         </header>
 
+        {/* Quick Contact */}
+        <div className="receptionist-contact">
+          <div className="contact-card">
+            <div className="contact-icon">
+              <FaPhoneAlt />
+            </div>
+            <div className="contact-text">
+              <span>Front Desk</span>
+              <strong>021 543 6678</strong>
+            </div>
+          </div>
+          <div className="contact-card">
+            <div className="contact-icon">
+              <FaEnvelope />
+            </div>
+            <div className="contact-text">
+              <span>Email</span>
+              <strong>frontdesk@medicare.com</strong>
+            </div>
+          </div>
+        
+        </div>
+
+       
+
         {/* Welcome Section */}
-        <div className="doctor-welcome">
+        <div className="receptionist-welcome">
           <div className="welcome-card">
             <div className="welcome-icon">
-              <FaStethoscope />
+              <FaHospital />
             </div>
             <div className="welcome-text">
-              <h3>Welcome to Your Practice Dashboard</h3>
-              <p>Manage your consultations, issue prescriptions, and provide quality patient care - all from one place.</p>
+              <h3>Welcome to Your Reception Dashboard</h3>
+              <p>Manage patient registrations, book appointments, and keep the front desk running smoothly.</p>
             </div>
           </div>
         </div>
 
         {/* Quick Actions Grid */}
-        <div className="doctor-grid">
+        <div className="receptionist-grid">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
             return (
               <div 
                 key={index} 
-                className="doctor-card"
+                className="receptionist-card"
                 onClick={() => navigate(item.path)}
                 style={{ borderTop: `4px solid ${item.color}` }}
               >
@@ -132,7 +193,7 @@ const DoctorDashboard = () => {
         </div>
 
         {/* Footer */}
-        <div className="doctor-footer">
+        <div className="receptionist-footer">
           <div className="footer-activity">
             <div className="activity-indicator"></div>
             <span>You are logged in as <strong>{user?.name}</strong></span>
@@ -150,4 +211,4 @@ const DoctorDashboard = () => {
   );
 };
 
-export default DoctorDashboard;
+export default ReceptionistDashboard;

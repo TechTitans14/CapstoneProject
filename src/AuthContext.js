@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log(`🔐 Login attempt: ${username}`);
       
-      const response = await api.post('/auth/login', {
+      // ✅ FIXED: Use "/Auth/login" with capital "A"
+      const response = await api.post('/Auth/login', {
         username,
         password
       });
@@ -32,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       
       const { token, userId, name, role } = response.data;
       
-      // ✅ Save token to localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('userData', JSON.stringify({ userId, name, role }));
       
@@ -40,6 +40,12 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error('❌ Login error:', error);
+      if (error.code === 'ERR_NETWORK') {
+        return { 
+          success: false, 
+          error: 'Cannot connect to server. Make sure the backend is running at https://localhost:7184' 
+        };
+      }
       return { 
         success: false, 
         error: error.response?.data || 'Login failed' 

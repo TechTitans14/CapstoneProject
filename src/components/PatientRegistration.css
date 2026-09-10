@@ -1,74 +1,313 @@
+/* ============================================
+   PATIENT REGISTRATION - Matching Dashboard
+   ============================================ */
 .registration-container {
-  padding: 40px;
-  background: #f5f7fa;
   min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
+.registration-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.78);
+  padding: 24px 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+/* ============================================
+   REGISTRATION CARD
+   ============================================ */
 .registration-card {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  max-width: 800px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 36px;
+  max-width: 700px;
+  width: 100%;
+  margin: 20px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.registration-card h2 {
-  color: #1a73e8;
-  margin-bottom: 30px;
+/* ============================================
+   HEADER
+   ============================================ */
+.registration-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateX(-2px);
+}
+
+.header-title h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.header-icon {
+  color: #0d9488;
+  font-size: 22px;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+}
+
+.label-icon {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: white;
+  transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(13, 148, 136, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.form-group textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* ============================================
+   GENDER BUTTONS
+   ============================================ */
 .gender-buttons {
   display: flex;
   gap: 12px;
-  margin-top: 6px;
 }
 
 .gender-btn {
-  padding: 8px 24px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  background: white;
-  cursor: pointer;
+  flex: 1;
+  padding: 10px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
   transition: all 0.3s;
 }
 
 .gender-btn:hover {
-  border-color: #1a73e8;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .gender-btn.selected {
-  background: #1a73e8;
-  color: white;
-  border-color: #1a73e8;
+  border-color: #0d9488;
+  background: rgba(13, 148, 136, 0.2);
+  color: #0d9488;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cancel-btn {
+  flex: 1;
+  padding: 14px 24px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
 }
 
 .register-btn {
-  width: 100%;
-  padding: 14px;
-  background: #1a73e8;
+  flex: 2;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
-  margin-top: 20px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.register-btn:hover {
-  background: #1557b0;
+.register-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.35);
 }
 
 .register-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
+}
+
+.register-btn .spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .registration-overlay {
+    padding: 16px;
+  }
+
+  .registration-card {
+    padding: 24px 20px;
+  }
+
+  .registration-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-title h2 {
+    font-size: 20px;
+  }
+
+  .gender-buttons {
+    flex-direction: column;
+  }
+
+  .gender-btn {
+    flex: none;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .register-btn {
+    flex: none;
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registration-overlay {
+    padding: 12px;
+  }
+
+  .registration-card {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .header-title h2 {
+    font-size: 18px;
+  }
+
+  .back-btn {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
 }

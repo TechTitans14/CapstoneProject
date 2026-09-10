@@ -16,6 +16,7 @@ import NewConsultation from './components/NewConsultation';
 import IssuePrescription from './components/IssuePrescription';
 import UserManagement from './components/UserManagement';
 import GenerateReports from './components/GenerateReports';
+import ReceptionistDashboard from './components/ReceptionistDashboard';
 
 function AppRoutes() {
   const { user } = useAuth();
@@ -30,6 +31,7 @@ function AppRoutes() {
           {/* Show different dashboard based on role */}
           {user?.role === 'Doctor' ? <DoctorDashboard /> : 
            user?.role === 'Admin' ? <AdminDashboard /> : 
+            user?.role === 'Receptionist' ? <ReceptionistDashboard /> : 
            <Dashboard />}
         </PrivateRoute>
       } />

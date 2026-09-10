@@ -1,85 +1,427 @@
+/* ============================================
+   NEW CONSULTATION - Matching Doctor Dashboard
+   ============================================ */
 .new-consultation-container {
-  padding: 40px;
-  background: #f5f7fa;
   min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
-.new-consultation-card {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
+.consultation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.78);
+  padding: 24px 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+/* ============================================
+   CONSULTATION CARD
+   ============================================ */
+.consultation-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 36px;
   max-width: 800px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin: 20px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.new-consultation-card h2 {
-  color: #1a73e8;
-  margin-bottom: 30px;
+/* ============================================
+   HEADER
+   ============================================ */
+.consultation-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateX(-2px);
+}
+
+.header-title h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 4px 0;
+}
+
+.header-icon {
+  color: #0d9488;
+  font-size: 22px;
+}
+
+.header-title p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   APPOINTMENT SUMMARY
+   ============================================ */
 .appointment-summary {
-  background: #f8f9fa;
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.summary-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.section-icon {
+  color: #0d9488;
+  font-size: 16px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 8px;
-  margin-bottom: 30px;
 }
 
-.appointment-summary h3 {
-  color: #333;
-  margin-bottom: 12px;
+.summary-full {
+  grid-column: span 2;
 }
 
-.appointment-summary p {
-  margin: 6px 0;
-  color: #555;
+.summary-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-.appointment-summary p strong {
-  color: #333;
+.patient-icon { background: rgba(13, 148, 136, 0.2); color: #0d9488; }
+.date-icon { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+.time-icon { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.reason-icon { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
 }
 
+.summary-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================
+   CONSULTATION FORM
+   ============================================ */
+.consultation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  background: rgba(6, 6, 6, 0.366);
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.form-section-header h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: white;
+  transition: all 0.3s;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(13, 148, 136, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
 .button-group {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 .cancel-btn {
   flex: 1;
-  padding: 14px;
-  background: #f44336;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 14px 24px;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
 }
 
 .cancel-btn:hover {
-  background: #d32f2f;
+  background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
 }
 
 .submit-btn {
   flex: 2;
-  padding: 14px;
-  background: #4caf50;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.submit-btn:hover {
-  background: #388e3c;
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.35);
 }
 
 .submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
+}
+
+.submit-btn .spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   LOADING
+   ============================================ */
+.consultation-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  color: white;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #0d9488;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+.consultation-loading p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+}
+
+.consultation-loading .back-btn {
+  margin-top: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .consultation-overlay {
+    padding: 16px;
+  }
+
+  .consultation-card {
+    padding: 24px 20px;
+    margin: 10px 0;
+  }
+
+  .consultation-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-title h2 {
+    font-size: 20px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-full {
+    grid-column: span 1;
+  }
+
+  .form-section {
+    padding: 16px 18px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    flex: none;
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .consultation-overlay {
+    padding: 12px;
+  }
+
+  .consultation-card {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .header-title h2 {
+    font-size: 18px;
+  }
+
+  .back-btn {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .summary-item {
+    padding: 6px 10px;
+  }
+
+  .summary-value {
+    font-size: 13px;
+  }
+
+  .form-group textarea {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
 }
