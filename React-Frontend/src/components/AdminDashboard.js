@@ -69,7 +69,7 @@ const AdminDashboard = () => {
   // DROPDOWN OPTIONS
   // ============================================
   const roleOptions = ['Doctor', 'Receptionist', 'Admin'];
-  
+
   const departmentOptions = [
     'Cardiology',
     'Pediatrics',
@@ -111,64 +111,64 @@ const AdminDashboard = () => {
   // ADMIN-ONLY STATS
   // ============================================
   const stats = [
-    { 
-      label: 'Total Staff', 
-      value: '247', 
-      change: '+5.2%', 
-      trend: 'up', 
-      icon: FaUsers, 
+    {
+      label: 'Total Staff',
+      value: '247',
+      change: '+5.2%',
+      trend: 'up',
+      icon: FaUsers,
       color: '#3b82f6',
       detail: '42 doctors, 89 nurses, 116 support'
     },
-    { 
-      label: 'Departments', 
-      value: '14', 
-      change: '0', 
-      trend: 'up', 
-      icon: FaHospital, 
+    {
+      label: 'Departments',
+      value: '14',
+      change: '0',
+      trend: 'up',
+      icon: FaHospital,
       color: '#0d9488',
       detail: '7 active, 2 under review'
     },
-    { 
-      label: 'Monthly Revenue', 
-      value: '$12.8M', 
-      change: '+8.3%', 
-      trend: 'up', 
-      icon: FaMoneyBillWave, 
+    {
+      label: 'Monthly Revenue',
+      value: '$12.8M',
+      change: '+8.3%',
+      trend: 'up',
+      icon: FaMoneyBillWave,
       color: '#f59e0b',
       detail: '4.2% above target'
     },
-    { 
-      label: 'Total Patients', 
-      value: '8,432', 
-      change: '+14.7%', 
-      trend: 'up', 
-      icon: FaProcedures, 
+    {
+      label: 'Total Patients',
+      value: '8,432',
+      change: '+14.7%',
+      trend: 'up',
+      icon: FaProcedures,
       color: '#8b5cf6',
       detail: '3,218 new this month'
     },
-    { 
-      label: 'System Uptime', 
-      value: '99.97%', 
-      change: '+0.02%', 
-      trend: 'up', 
-      icon: FaShieldAlt, 
+    {
+      label: 'System Uptime',
+      value: '99.97%',
+      change: '+0.02%',
+      trend: 'up',
+      icon: FaShieldAlt,
       color: '#10b981',
       detail: 'Last 30 days'
     },
-    { 
-      label: 'Active Licenses', 
-      value: '342', 
-      change: '+12', 
-      trend: 'up', 
-      icon: FaFileInvoice, 
+    {
+      label: 'Active Licenses',
+      value: '342',
+      change: '+12',
+      trend: 'up',
+      icon: FaFileInvoice,
       color: '#ef4444',
       detail: '94% utilization'
     },
   ];
 
   // ============================================
-  // EMPLOYEES DATA (Matches Models)
+  // EMPLOYEES DATA (display-only preview)
   // ============================================
   const [employees, setEmployees] = useState([
     {
@@ -192,7 +192,6 @@ const AdminDashboard = () => {
       email: 'jane.doe@hospital.com',
       phone: '(555) 567-8901',
       status: 'Active',
-      // Receptionist model fields: StaffID, Name, Contact, Username, PasswordHash
       contact: '(555) 567-8901',
       username: 'jane.doe',
       password: '********'
@@ -205,7 +204,6 @@ const AdminDashboard = () => {
       email: 'john.smith@hospital.com',
       phone: '(555) 234-5678',
       status: 'Active',
-      // Admin model fields: AdminID, Name, Contact, Username, PasswordHash
       adminContact: '(555) 234-5678',
       username: 'john.admin',
       password: '********'
@@ -297,13 +295,11 @@ const AdminDashboard = () => {
   const handleSaveEmployee = () => {
     const { name, role, department, email, phone, status, specialization, availability, username, password, contact, adminContact } = employeeFormData;
 
-    // Validate required fields
     if (!name || !role || !department || !email || !phone) {
       alert('Please fill in all required fields');
       return;
     }
 
-    // Build employee object based on role
     let employeeData = {
       id: selectedEmployee?.id || employees.length + 1,
       name,
@@ -314,7 +310,6 @@ const AdminDashboard = () => {
       status
     };
 
-    // Add role-specific fields based on the models
     if (role === 'Doctor') {
       employeeData = {
         ...employeeData,
@@ -324,7 +319,6 @@ const AdminDashboard = () => {
         password: password || '********'
       };
     } else if (role === 'Receptionist') {
-      // Receptionist model: StaffID, Name, Contact, Username, PasswordHash
       employeeData = {
         ...employeeData,
         contact: phone,
@@ -332,7 +326,6 @@ const AdminDashboard = () => {
         password: password || '********'
       };
     } else if (role === 'Admin') {
-      // Admin model: AdminID, Name, Contact, Username, PasswordHash
       employeeData = {
         ...employeeData,
         adminContact: phone,
@@ -342,7 +335,7 @@ const AdminDashboard = () => {
     }
 
     if (editMode) {
-      setEmployees(employees.map(emp => 
+      setEmployees(employees.map(emp =>
         emp.id === employeeData.id ? employeeData : emp
       ));
     } else {
@@ -407,7 +400,6 @@ const AdminDashboard = () => {
     emp.department.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Render role-specific form fields
   const renderRoleFields = () => {
     const { role } = employeeFormData;
 
@@ -605,16 +597,14 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        {/* Employee Management */}
+        {/* Employee Management — NO Add Employee button */}
         <section className="employee-section">
           <div className="section-header">
             <h2>
               <FaUsers className="section-icon" />
               Employee Management
             </h2>
-            <button className="add-btn" onClick={handleAddEmployee}>
-              <FaUserPlus /> Add Employee
-            </button>
+            {/* ❌ "Add Employee" button removed */}
           </div>
 
           <div className="employee-table-wrapper">
@@ -642,9 +632,9 @@ const AdminDashboard = () => {
                       </div>
                     </td>
                     <td>
-                      <span 
+                      <span
                         className="role-badge"
-                        style={{ 
+                        style={{
                           backgroundColor: getRoleBadgeColor(emp.role) + '20',
                           color: getRoleBadgeColor(emp.role),
                           borderColor: getRoleBadgeColor(emp.role) + '30'
@@ -661,9 +651,9 @@ const AdminDashboard = () => {
                       </div>
                     </td>
                     <td>
-                      <span 
+                      <span
                         className="status-badge"
-                        style={{ 
+                        style={{
                           backgroundColor: getStatusColor(emp.status) + '20',
                           color: getStatusColor(emp.status)
                         }}
@@ -673,14 +663,14 @@ const AdminDashboard = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <button 
+                        <button
                           className="edit-btn"
                           onClick={() => handleEditEmployee(emp)}
                           title="Edit Employee"
                         >
                           <FaUserEdit />
                         </button>
-                        <button 
+                        <button
                           className="delete-btn"
                           onClick={() => handleDeleteEmployee(emp.id)}
                           title="Delete Employee"
@@ -727,7 +717,7 @@ const AdminDashboard = () => {
             </div>
           </section>
 
-          {/* Admin Actions */}
+          {/* Admin Actions — Only User Management + System Reports */}
           <section className="dashboard-card admin-actions-card">
             <div className="card-header">
               <h2>
@@ -736,10 +726,7 @@ const AdminDashboard = () => {
               </h2>
             </div>
             <div className="admin-actions-grid">
-              <button className="admin-action-btn" onClick={handleAddEmployee}>
-                <FaUserPlus />
-                <span>Add Staff</span>
-              </button>
+              {/* ❌ "Add Staff" button removed */}
               <button className="admin-action-btn" onClick={() => navigate('/user-management')}>
                 <FaUsers />
                 <span>User Management</span>
@@ -748,10 +735,7 @@ const AdminDashboard = () => {
                 <FaChartLine />
                 <span>System Reports</span>
               </button>
-              <button className="admin-action-btn">
-                <FaFileInvoice />
-                <span>Audit Logs</span>
-              </button>
+              {/* ❌ "Audit Logs" button removed */}
             </div>
           </section>
         </div>
@@ -803,12 +787,12 @@ const AdminDashboard = () => {
         </section>
       </main>
 
-      {/* Employee Modal */}
+      {/* Employee Modal — kept for Edit Employee action from the table */}
       {showEmployeeModal && (
         <div className="modal-overlay" onClick={() => setShowEmployeeModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>{editMode ? 'Edit Employee' : 'Add New Employee'}</h2>
-            
+
             <div className="modal-body">
               {/* Name and Role */}
               <div className="form-row">

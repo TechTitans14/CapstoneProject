@@ -27,11 +27,11 @@
    LOGIN CARD
    ============================================ */
 .login-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: #e2e8f0;
   backdrop-filter: blur(16px);
   padding: 48px 40px;
   border-radius: 20px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 24px 80px rgba(42, 41, 41, 0.4);
   width: 100%;
   max-width: 420px;
   position: relative;
@@ -82,7 +82,7 @@
 }
 
 .login-subtitle {
-  color: #64748b;
+  color: #080808;
   font-size: 14px;
   margin: 0;
 }
@@ -100,41 +100,83 @@ form {
   margin-bottom: 16px;
 }
 
-.form-group label {
+.login-card .form-group label {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
   font-weight: 600;
   font-size: 14px;
-  color: #0f172a;
+  color: #000000 !important;
 }
 
-.input-icon {
+.login-card .form-group label .input-icon {
   font-size: 14px;
-  color: #0d9488;
+  color: #0d9488 !important;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 15px;
-  transition: all 0.3s;
-  background: #f8fafc;
-  color: #0f172a;
+/* ===== INPUT FIX ===== */
+.login-card .form-group input,
+.login-card .password-input-wrapper input,
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+  width: 100% !important;
+  padding: 14px 16px !important;
+  border: 2px solid #0d9488 !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  transition: border-color 0.3s, box-shadow 0.3s !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0d9488 !important;
+  opacity: 1 !important;
 }
 
-.form-group input:focus {
-  border-color: #0d9488;
-  outline: none;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+.login-card .form-group input:focus,
+.login-card .password-input-wrapper input:focus {
+  border-color: #0f766e !important;
+  outline: none !important;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15) !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
 }
 
-.form-group input::placeholder {
-  color: #94a3b8;
+.login-card .form-group input::placeholder,
+.login-card .password-input-wrapper input::placeholder {
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* ===== AUTOFILL FIX (Chrome/Safari/Edge) ===== */
+.login-card .form-group input:-webkit-autofill,
+.login-card .form-group input:-webkit-autofill:hover,
+.login-card .form-group input:-webkit-autofill:focus,
+.login-card .form-group input:-webkit-autofill:active,
+.login-card .password-input-wrapper input:-webkit-autofill,
+.login-card .password-input-wrapper input:-webkit-autofill:hover,
+.login-card .password-input-wrapper input:-webkit-autofill:focus,
+.login-card .password-input-wrapper input:-webkit-autofill:active {
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  background-color: #ffffff !important;
+  background-clip: content-box !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  caret-color: #0d9488 !important;
+}
+
+/* ===== AUTOFILL FIX (Firefox) ===== */
+.login-card .form-group input:autofill,
+.login-card .password-input-wrapper input:autofill {
+  filter: none;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
 /* Password toggle */
@@ -143,7 +185,7 @@ form {
 }
 
 .password-group .password-input-wrapper input {
-  padding-right: 48px;
+  padding-right: 48px !important;
 }
 
 .password-toggle-btn {
@@ -151,17 +193,18 @@ form {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #94a3b8;
+  background: none !important;
+  border: none !important;
+  color: #64748b !important;
   cursor: pointer;
   font-size: 18px;
   padding: 4px;
   transition: color 0.3s;
+  z-index: 2;
 }
 
 .password-toggle-btn:hover {
-  color: #0f172a;
+  color: #0d9488 !important;
 }
 
 /* ============================================
@@ -179,7 +222,7 @@ form {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #475569;
+  color: #010101;
   cursor: pointer;
 }
 
@@ -213,7 +256,7 @@ form {
   width: 100%;
   padding: 16px;
   background: linear-gradient(135deg, #0d9488, #0f766e);
-  color: white;
+  color: white !important;
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -270,12 +313,13 @@ form {
   text-align: center;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #cbd5e1;
+  color: #000000;
 }
 
 .demo-credentials p {
   font-size: 13px;
-  color: #94a3b8;
+  color: #060707;
   margin: 0;
 }
 
@@ -286,6 +330,22 @@ form {
   font-size: 13px;
   color: #0f172a;
   font-weight: 600;
+}
+
+.demo-credentials .demo-btn {
+  padding: 6px 16px;
+  font-size: 12px;
+  color: white !important;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.demo-credentials .demo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================
@@ -310,9 +370,12 @@ form {
     font-size: 13px;
   }
 
-  .form-group input {
-    padding: 12px 14px;
-    font-size: 14px;
+  .login-card .form-group input {
+    padding: 12px 14px !important;
+    font-size: 14px !important;
+    color: #0f172a !important;
+    background: #ffffff !important;
+    -webkit-text-fill-color: #0f172a !important;
   }
 
   .login-btn {

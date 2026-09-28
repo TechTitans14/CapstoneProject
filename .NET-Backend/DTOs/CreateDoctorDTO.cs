@@ -19,8 +19,7 @@ namespace HealthcareAPI.DTOs
         [MaxLength(50)]
         public string Specialization { get; set; } = string.Empty;
 
-        [MaxLength(50)]
-        public string Contact { get; set; } = string.Empty;
+        
 
         [MaxLength(20)]
         public string Availability { get; set; } = "Available";

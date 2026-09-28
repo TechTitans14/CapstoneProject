@@ -397,7 +397,7 @@ const BookAppointment = () => {
                 value={formData.reason}
                 onChange={handleChange}
                 rows="3"
-                placeholder="Enter reason for appointment (optional)"
+                placeholder="Enter reason for appointment"
               />
             </div>
 

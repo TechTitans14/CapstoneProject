@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using HealthcareAPI.Models;
 using HealthcareAPI.Data;
+using HealthcareAPI.DTOs;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HealthcareAPI.Controllers
@@ -20,7 +21,6 @@ namespace HealthcareAPI.Controllers
 
         // ============================================
         // GET: api/Doctor
-        // Get all doctors
         // ============================================
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetDoctors()
@@ -36,6 +36,7 @@ namespace HealthcareAPI.Controllers
                         d.Specialization,
                         d.Availability,
                         d.Username
+                        // ❌ REMOVED: d.Contact
                     })
                     .ToListAsync();
 
@@ -50,7 +51,6 @@ namespace HealthcareAPI.Controllers
 
         // ============================================
         // GET: api/Doctor/{id}
-        // Get a specific doctor
         // ============================================
         [HttpGet("{id}")]
         public async Task<ActionResult<Doctor>> GetDoctor(int id)
@@ -61,9 +61,7 @@ namespace HealthcareAPI.Controllers
                     .FirstOrDefaultAsync(d => d.DoctorID == id);
 
                 if (doctor == null)
-                {
                     return NotFound($"Doctor with ID {id} not found");
-                }
 
                 return Ok(doctor);
             }
@@ -76,7 +74,6 @@ namespace HealthcareAPI.Controllers
 
         // ============================================
         // GET: api/Doctor/available
-        // Get all available doctors
         // ============================================
         [HttpGet("available")]
         public async Task<ActionResult<IEnumerable<object>>> GetAvailableDoctors()
@@ -106,8 +103,104 @@ namespace HealthcareAPI.Controllers
         }
 
         // ============================================
+        // POST: api/Doctor
+        // ============================================
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<Doctor>> CreateDoctor([FromBody] CreateDoctorDTO dto)
+        {
+            try
+            {
+                Console.WriteLine($"📝 Creating doctor: {dto.Name}");
+
+                var existingDoctor = await _context.Doctors
+                    .FirstOrDefaultAsync(d => d.Username == dto.Username);
+
+                if (existingDoctor != null)
+                    return BadRequest("Username already exists");
+
+                var doctor = new Doctor
+                {
+                    Name = dto.Name,
+                    Username = dto.Username,
+                    Specialization = string.IsNullOrEmpty(dto.Specialization) ? "General" : dto.Specialization,
+                    Availability = string.IsNullOrEmpty(dto.Availability) ? "Available" : dto.Availability,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                    // ❌ REMOVED: Contact
+                };
+
+                _context.Doctors.Add(doctor);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine($"✅ Doctor created with ID: {doctor.DoctorID}");
+
+                return Ok(new
+                {
+                    doctorID = doctor.DoctorID,
+                    name = doctor.Name,
+                    username = doctor.Username,
+                    specialization = doctor.Specialization,
+                    availability = doctor.Availability,
+                    role = "Doctor"
+                    // ❌ REMOVED: contact
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error creating doctor: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // ============================================
+        // PUT: api/Doctor/{id}
+        // ============================================
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateDoctor(int id, [FromBody] UpdateDoctorDTO dto)
+        {
+            try
+            {
+                var doctor = await _context.Doctors.FindAsync(id);
+                if (doctor == null)
+                    return NotFound($"Doctor with ID {id} not found");
+
+                if (!string.IsNullOrEmpty(dto.Name))
+                    doctor.Name = dto.Name;
+
+                if (!string.IsNullOrEmpty(dto.Username))
+                {
+                    var existing = await _context.Doctors
+                        .FirstOrDefaultAsync(d => d.Username == dto.Username && d.DoctorID != id);
+                    if (existing != null)
+                        return BadRequest("Username already exists");
+                    doctor.Username = dto.Username;
+                }
+
+                if (!string.IsNullOrEmpty(dto.Specialization))
+                    doctor.Specialization = dto.Specialization;
+
+                if (!string.IsNullOrEmpty(dto.Availability))
+                    doctor.Availability = dto.Availability;
+
+                // ❌ REMOVED: Contact update block
+
+                if (!string.IsNullOrEmpty(dto.Password))
+                    doctor.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Doctor updated successfully", doctor });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error updating doctor: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // ============================================
         // PUT: api/Doctor/{id}/availability
-        // Update doctor availability
         // ============================================
         [HttpPut("{id}/availability")]
         [Authorize(Roles = "Admin")]
@@ -117,9 +210,7 @@ namespace HealthcareAPI.Controllers
             {
                 var doctor = await _context.Doctors.FindAsync(id);
                 if (doctor == null)
-                {
                     return NotFound($"Doctor with ID {id} not found");
-                }
 
                 doctor.Availability = availability;
                 await _context.SaveChangesAsync();
@@ -129,6 +220,31 @@ namespace HealthcareAPI.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error updating availability: {ex.Message}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // ============================================
+        // DELETE: api/Doctor/{id}
+        // ============================================
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteDoctor(int id)
+        {
+            try
+            {
+                var doctor = await _context.Doctors.FindAsync(id);
+                if (doctor == null)
+                    return NotFound($"Doctor with ID {id} not found");
+
+                _context.Doctors.Remove(doctor);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Doctor deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error deleting doctor: {ex.Message}");
                 return StatusCode(500, new { error = ex.Message });
             }
         }

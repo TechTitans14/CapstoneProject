@@ -312,6 +312,24 @@
   margin-bottom: 16px;
 }
 
+.field-hint {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.field-hint-error {
+  color: #f59e0b;
+}
+
+.field-hint-success {
+  color: #10b981;
+}
+
+.field-hint-info {
+  color: #94a3b8;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .user-overlay { padding: 16px; }

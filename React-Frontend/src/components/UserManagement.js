@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api';
 import { toast } from 'react-toastify';
-import { 
-  FaArrowLeft, 
-  FaUsers, 
-  FaUserPlus, 
-  FaUserEdit, 
+import {
+  FaArrowLeft,
+  FaUsers,
+  FaUserPlus,
+  FaUserEdit,
   FaUserSlash,
   FaUserCircle,
   FaPhone,
@@ -24,6 +24,7 @@ import LoginBackground from './LoginBackground.jpg';
 
 const UserManagement = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -40,6 +41,28 @@ const UserManagement = () => {
     availability: 'Available'
   });
 
+  // ============================================
+  // PASSWORD VALIDATION RULES
+  // ============================================
+  const passwordRules = {
+    minLength: 6
+  };
+
+  const passwordValue = formData.password || '';
+  const passwordTooShort =
+    passwordValue.length > 0 && passwordValue.length < passwordRules.minLength;
+  const passwordValid = passwordValue.length >= passwordRules.minLength;
+
+  // On CREATE, password is required and must meet min length
+  const isCreatePasswordInvalid =
+    !editMode && passwordValue.length < passwordRules.minLength;
+
+  // Final gate for the submit button
+  const canSubmit = !passwordTooShort && !isCreatePasswordInvalid;
+
+  // ============================================
+  // DROPDOWN OPTIONS
+  // ============================================
   const roleOptions = ['Admin', 'Doctor', 'Receptionist'];
   const specializationOptions = [
     'Cardiology', 'Pediatrics', 'Orthopedics', 'Neurology',
@@ -49,19 +72,41 @@ const UserManagement = () => {
   ];
   const availabilityOptions = ['Available', 'Busy', 'Off Duty', 'On Call'];
 
+  // ============================================
+  // FETCH ALL USERS
+  // ============================================
   useEffect(() => {
+    console.log('🚀 UserManagement mounted');
+    console.log('🌐 API Base URL:', api.defaults.baseURL);
+    console.log('🔑 Token present:', !!localStorage.getItem('token'));
     fetchAllUsers();
   }, []);
+
+  // ============================================
+  // AUTO-OPEN FORM IF NAVIGATED WITH FLAG
+  // ============================================
+  useEffect(() => {
+    if (location.state?.openAddForm) {
+      handleAddNew();
+      window.history.replaceState({}, document.title);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
 
   const fetchAllUsers = async () => {
     try {
       setLoading(true);
+      console.log('📥 Fetching all users...');
 
       const [adminsRes, doctorsRes, receptionistsRes] = await Promise.all([
         api.get('/Admin').catch(() => ({ data: [] })),
         api.get('/Doctor').catch(() => ({ data: [] })),
         api.get('/Receptionist').catch(() => ({ data: [] }))
       ]);
+
+      console.log('✅ Admins:', adminsRes.data);
+      console.log('✅ Doctors:', doctorsRes.data);
+      console.log('✅ Receptionists:', receptionistsRes.data);
 
       const admins = (adminsRes.data || []).map(a => ({
         id: a.adminID,
@@ -77,7 +122,7 @@ const UserManagement = () => {
         name: d.name,
         username: d.username,
         role: 'Doctor',
-        contact: '-',  // Doctor doesn't have contact
+        contact: '-',
         specialization: d.specialization || '-',
         availability: d.availability
       }));
@@ -91,7 +136,9 @@ const UserManagement = () => {
         specialization: '-'
       }));
 
-      setUsers([...admins, ...doctors, ...receptionists]);
+      const allUsers = [...admins, ...doctors, ...receptionists];
+      console.log('📊 Total users:', allUsers.length);
+      setUsers(allUsers);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast.error('Failed to fetch users');
@@ -100,7 +147,11 @@ const UserManagement = () => {
     }
   };
 
+  // ============================================
+  // ADD NEW
+  // ============================================
   const handleAddNew = () => {
+    console.log('➕ Add New clicked');
     setFormData({
       name: '',
       username: '',
@@ -115,7 +166,11 @@ const UserManagement = () => {
     setShowForm(true);
   };
 
+  // ============================================
+  // EDIT EXISTING
+  // ============================================
   const handleEdit = (user) => {
+    console.log('✏️ Edit clicked for:', user);
     setFormData({
       name: user.name || '',
       username: user.username || '',
@@ -130,8 +185,32 @@ const UserManagement = () => {
     setShowForm(true);
   };
 
+  // ============================================
+  // SUBMIT — CREATE OR UPDATE
+  // ============================================
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log('========== SUBMIT ==========');
+    console.log('📝 editMode:', editMode);
+    console.log('📝 selectedUser:', selectedUser);
+    console.log('📝 formData:', formData);
+
+    // ============================================
+    // PASSWORD SAFETY NET (matches backend DTO rules)
+    // ============================================
+    if (!editMode && formData.password.length < passwordRules.minLength) {
+      toast.error(`Password must be at least ${passwordRules.minLength} characters`);
+      return;
+    }
+
+    if (editMode && formData.password && formData.password.length < passwordRules.minLength) {
+      toast.error(
+        `Password must be at least ${passwordRules.minLength} characters (or leave it blank to keep unchanged)`
+      );
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -148,20 +227,19 @@ const UserManagement = () => {
         else if (currentRole === 'Doctor') endpoint = `/Doctor/${selectedUser.id}`;
         else if (currentRole === 'Receptionist') endpoint = `/Receptionist/${selectedUser.id}`;
 
-        // Build payload based on role
-        const updatePayload = { name, username };
+        console.log('🔵 PUT →', endpoint);
 
+        const updatePayload = { name, username };
         if (password) updatePayload.password = password;
 
         if (currentRole === 'Doctor') {
-          // Doctor: no contact, only specialization + availability
           updatePayload.specialization = specialization;
           updatePayload.availability = availability;
         } else {
-          // Admin & Receptionist: contact only
           updatePayload.contact = contact;
         }
 
+        console.log('🔵 Payload:', updatePayload);
         await api.put(endpoint, updatePayload);
         toast.success('User updated successfully!');
 
@@ -179,12 +257,13 @@ const UserManagement = () => {
           endpoint = '/Doctor';
           payload.specialization = specialization || 'General';
           payload.availability = availability || 'Available';
-          // No contact for doctors
         } else if (role === 'Receptionist') {
           endpoint = '/Receptionist';
           payload.contact = contact;
         }
 
+        console.log('🟢 POST →', endpoint);
+        console.log('🟢 Payload:', payload);
         await api.post(endpoint, payload);
         toast.success(`${role} added successfully!`);
       }
@@ -195,13 +274,30 @@ const UserManagement = () => {
       fetchAllUsers();
 
     } catch (error) {
-      console.error('Error saving user:', error);
-      toast.error(error.response?.data?.error || error.response?.data || 'Failed to save user');
+      console.error('❌ ========== ERROR ==========');
+      console.error('❌ Message:', error.message);
+      console.error('❌ Status:', error.response?.status);
+      console.error('❌ Response Data:', JSON.stringify(error.response?.data, null, 2));
+      console.error('❌ Request URL:', error.config?.url);
+      console.error('❌ Request Method:', error.config?.method);
+
+      const serverMsg =
+        error.response?.data?.message ||
+        error.response?.data?.title ||
+        (typeof error.response?.data === 'string' ? error.response.data : null) ||
+        error.response?.data?.errors?.Password?.[0] ||
+        error.message ||
+        'Failed to save user';
+
+      toast.error(serverMsg);
     } finally {
       setLoading(false);
     }
   };
 
+  // ============================================
+  // DELETE
+  // ============================================
   const handleDelete = async (id, role) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
 
@@ -314,7 +410,7 @@ const UserManagement = () => {
               </h2>
 
               <form onSubmit={handleSubmit}>
-                {/* Name & Username - All roles */}
+                {/* Name & Username */}
                 <div className="form-row">
                   <div className="form-group">
                     <label><FaUserCircle className="label-icon" /> Full Name *</label>
@@ -340,7 +436,7 @@ const UserManagement = () => {
                   </div>
                 </div>
 
-                {/* Password & Role - All roles */}
+                {/* Password & Role */}
                 <div className="form-row">
                   <div className="form-group">
                     <label>
@@ -351,10 +447,48 @@ const UserManagement = () => {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      placeholder={editMode ? 'Leave blank to keep current' : 'Enter password'}
+                      placeholder={
+                        editMode
+                          ? 'Leave blank to keep current'
+                          : `Enter password (min ${passwordRules.minLength} characters)`
+                      }
                       required={!editMode}
+                      className={
+                        passwordTooShort || isCreatePasswordInvalid
+                          ? 'input-error'
+                          : passwordValid
+                          ? 'input-valid'
+                          : ''
+                      }
                     />
+
+                    {/* 👇 Live password guidance */}
+                    {passwordValue.length > 0 && passwordTooShort && (
+                      <p className="field-hint field-hint-error">
+                        ⚠ Password must be at least {passwordRules.minLength} characters
+                        {' '}({passwordValue.length}/{passwordRules.minLength})
+                      </p>
+                    )}
+
+                    {passwordValid && (
+                      <p className="field-hint field-hint-success">
+                        ✓ Password meets the minimum length
+                      </p>
+                    )}
+
+                    {editMode && passwordValue.length === 0 && (
+                      <p className="field-hint field-hint-info">
+                        ℹ Leave blank to keep the current password unchanged
+                      </p>
+                    )}
+
+                    {!editMode && passwordValue.length === 0 && (
+                      <p className="field-hint field-hint-info">
+                        ℹ Minimum {passwordRules.minLength} characters required
+                      </p>
+                    )}
                   </div>
+
                   <div className="form-group">
                     <label><FaShieldAlt className="label-icon" /> Role *</label>
                     <select
@@ -372,42 +506,36 @@ const UserManagement = () => {
                   </div>
                 </div>
 
-                {/* ============================================
-                    ROLE-SPECIFIC FIELDS
-                    ============================================ */}
-
-                {/* DOCTOR: Specialization + Availability (NO CONTACT) */}
+                {/* DOCTOR-SPECIFIC FIELDS */}
                 {formData.role === 'Doctor' && (
-                  <>
-                    <div className="form-row">
-                      <div className="form-group">
-                        <label><FaStethoscope className="label-icon" /> Specialization *</label>
-                        <select
-                          name="specialization"
-                          value={formData.specialization}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="">Select Specialization</option>
-                          {specializationOptions.map(opt => (
-                            <option key={opt} value={opt}>{opt}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label><FaClock className="label-icon" /> Availability</label>
-                        <select
-                          name="availability"
-                          value={formData.availability}
-                          onChange={handleChange}
-                        >
-                          {availabilityOptions.map(opt => (
-                            <option key={opt} value={opt}>{opt}</option>
-                          ))}
-                        </select>
-                      </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label><FaStethoscope className="label-icon" /> Specialization *</label>
+                      <select
+                        name="specialization"
+                        value={formData.specialization}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Specialization</option>
+                        {specializationOptions.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
                     </div>
-                  </>
+                    <div className="form-group">
+                      <label><FaClock className="label-icon" /> Availability</label>
+                      <select
+                        name="availability"
+                        value={formData.availability}
+                        onChange={handleChange}
+                      >
+                        {availabilityOptions.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 )}
 
                 {/* ADMIN & RECEPTIONIST: Contact */}
@@ -429,10 +557,19 @@ const UserManagement = () => {
                 )}
 
                 <div className="form-actions">
-                  <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>
+                  <button
+                    type="button"
+                    className="cancel-btn"
+                    onClick={() => setShowForm(false)}
+                  >
                     Cancel
                   </button>
-                  <button type="submit" className="submit-btn" disabled={loading}>
+                  <button
+                    type="submit"
+                    className="submit-btn"
+                    disabled={loading || !canSubmit}
+                    title={!canSubmit ? 'Fix the errors above before submitting' : ''}
+                  >
                     {loading ? <span className="spinner"></span> : (editMode ? 'Update' : 'Add')}
                   </button>
                 </div>

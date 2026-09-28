@@ -109,7 +109,7 @@ const PatientRegistration = () => {
       };
 
       console.log(' Registering patient:', patientData);
-      await api.post('/Patient/register/', patientData);
+      await api.post('Patient/register/', patientData);
       
       toast.success('Patient registered successfully!');
       
@@ -266,7 +266,7 @@ const PatientRegistration = () => {
                 value={formData.medicalHistory}
                 onChange={handleChange}
                 rows="2"
-                placeholder="Enter any medical history (optional)"
+                placeholder="Enter any medical history "
               />
             </div>
 
